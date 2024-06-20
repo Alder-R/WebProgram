@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+    <title>🎨그림판 게임</title>
+    <style> /* CSS */
+        canvas {
+            border: solid 2px black;
+            margin-top: 25px;
+            cursor: crosshair;
+            box-shadow: 2px 2px 20px gray;
+            background-color: ivory;
+        }
+        input {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+    </style>
+    <script type="text/javascript"> // JavaScript
+    var canvas;     // 캔버스 정보를 담을 변수
+    var ctx;        // 캔버스 컨텍스트 정보를 담을 변수
+    var flag = false;       // 마우스가 눌린 상태인지 확인할 변수(눌리면 true)
+
+    // 페이지가 로드되면 그림을 그릴 수 있게 준비하는 js함수
+    function ready() {
+        canvas = document.getElementById("canvasID");       // 캔버스 정보 가져오기
+        ctx = canvas.getContext("2d");        // 컨텍스트 정보 가져오기
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        canvas.onmousedown = drawStart;      // 캔버스에서 마우스가 눌리면 drawStart함수 호출
+        canvas.onmousemove = drawing;       // 캔버스에서 마우스가 움직이면 drawing함수 호출
+        canvas.onmouseup = drawEnd;     // 캔버스에서 마우스가 떼이면 drawEnd함수 호출
+    }
+
+    // 그리기 시작
+    function drawStart(event) {
+        ctx.beginPath();        // 캔버스에 선 긋기 준비
+        var xpos = event.target.offsetLeft;     // 그리기 시작점의 x좌표
+        var ypos = event.target.offsetTop;     // 그리기 시작점의 y좌표
+        ctx.moveTo(event.clientX-xpos, event.clientY-ypos);       // 해당 좌표에서 선 긋기 시작
+        flag = true;        // 마우스 버튼 눌림 상태로 전환시킴
+    }
+
+    // 그리는 중(마우스가 눌린 상태에서 움직임)
+    function drawing(event) {
+        if (flag) {
+            var xpos = event.target.offsetLeft;     // 그리기 시작점의 x좌표
+            var ypos = event.target.offsetTop;     // 그리기 시작점의 y좌표
+            ctx.lineTo(event.clientX-xpos, event.clientY-ypos);     // 좌표대로 선을 그려 나감
+            ctx.stroke();       // 최종적으로 선을 그림
+        }
+    }
+
+    // 그리기 끝
+    function drawEnd(event) { flag = false; }
+
+    // 새로 그리기
+    function newDrawing(event) {
+        flag = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);        // 좌표 0, 0에서부터 캔버스 가로와 세로만큼 clear
+    }
+
+    // 펜 굵기 선택
+    function penBold() { ctx.lineWidth = 20 }
+    function penMiddle() { ctx.lineWidth = 10 }
+    function penThin() { ctx.lineWidth = 1 }
+
+    // 펜 색상 선택
+    function colorBlack() { ctx.strokeStyle = "black"; }
+    function colorRed() { ctx.strokeStyle = "red"; }
+    function colorBlue() { ctx.strokeStyle = "blue"; }
+    function colorGreen() { ctx.strokeStyle = "green"; }
+    function colorYellow() { ctx.strokeStyle = "yellow"; }
+
+    function saveAs() {
+        var link = document.createElement('a');
+        link.download = '내 그림.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    }
+
+    </script>
+</head>
+
+<body onload="ready()">
+    <center style="background-color: darkgray;">
+        <div style="background-color: aquamarine;">
+            <h1>나의 자바스크립트 그래픽툴</h1>
+        </div>
+
+        <div>
+        <input type="button" value="💾PNG 파일로 저장" onclick="saveAs()" style="background-color: dodgerblue; color: white;">
+        <input type="button" value="📄새로 그리기" onclick="newDrawing()" style="background-color: white;">
+        |
+        <input type="button" value="🖌️펜 굵게" onclick="penBold()">
+        <input type="button" value="🖌️펜 보통" onclick="penMiddle()">
+        <input type="button" value="🖌️펜 가늘게" onclick="penThin()">
+        |
+        <input type="button" value="⚫️검정" onclick="colorBlack()" style="background-color: grey;">
+        <input type="button" value="🔴빨강" onclick="colorRed()" style="background-color: indianred;">
+        <input type="button" value="🔵파랑" onclick="colorBlue()" style="background-color: skyblue;">
+        <input type="button" value="🟢초록" onclick="colorGreen()" style="background-color: palegreen;">
+        <input type="button" value="🟡노랑" onclick="colorYellow()" style="background-color: wheat;">
+        </div>
+
+        <div>
+            <canvas id="canvasID" width="1080" height="1080"></canvas>
+        </div>
+
+    </center>
+</body>
+</html>
