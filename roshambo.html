@@ -5,29 +5,85 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가위바위보 게임</title>
+
+    <style>     /* CSS */
+        
+    </style>
+
+    <script>    // JavaScript
+    function Roshambo(choice) {
+        // alert("선택값: " + choice);
+        with (document.roshamboGame) {
+            comp = Math.round((Math.random() * 2) + 1);
+            // alert("컴퓨터: " + comp);
+            var soms;
+            if (comp == 1) { coms = "가위"; }
+            else if (comp == 2) { coms = "바위"; }
+            else if (comp == 3) { coms = "보"; }
+            msg.value = "컴퓨터는 " + coms + "를 냈습니다.";
+            if (comp == 1) {
+                switch (choice) {
+                    case 1: Draw(); break;
+                    case 2: Win(); break;
+                    case 3: Lose(); break;
+                }
+            }
+            else if (comp == 2) {
+                switch (choice) {
+                    case 1: Lose(); break;
+                    case 2: Draw(); break;
+                    case 3: Win(); break;
+                }
+            }
+            else if (comp == 3) {
+                switch (choice) {
+                    case 1: Win(); break;
+                    case 2: Lose(); break;
+                    case 3: Draw(); break;
+                }
+            }
+        }
+    }
+    function Win() { 
+        with (document.roshamboGame) {
+            win.value++;
+            msg.value += " 당신은 이겼습니다.";
+        }
+    }
+    function Lose() { 
+        with (document.roshamboGame) {
+            lose.value++;
+            msg.value += " 당신은 졌습니다.";
+        }
+    }
+    function Draw() { 
+        with (document.roshamboGame) {
+            draw.value++;
+            msg.value += " 당신은 비겼습니다.";
+        }
+    }
+    </script>
 </head>
 <body>
     <center>
         <h3>가위바위보 게임</h3>
-        <form>
+        <form name="roshamboGame">
             <table border="10">
-                <tr>
+                <tr align="center">
                     <td>가위바위보</td>
-                    <td>가위</td>
-                    <td>바위</td>
-                    <td>보</td>
+                    <td><img src="roshambo_Images\scissors.gif" alt="" onclick="Roshambo(1)"><br>가위</td>
+                    <td><img src="roshambo_Images\rock.gif" alt="" onclick="Roshambo(2)"><br>바위</td>
+                    <td><img src="roshambo_Images\paper.gif" alt="" onclick="Roshambo(3)"><br>보</td>
                 </tr>
                 <tr>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>8</td>
+                    <td colspan="4"><input type="text" name="msg" id="" size="40" readonly value=""></td>
                 </tr>
                 <tr>
-                    <td>9</td>
-                    <td>A</td>
-                    <td>B</td>
-                    <td>C</td>
+                    <td colspan="4" align="center">
+                        <input type="text" name="win" id="" size="2" readonly value="0"> 승
+                        <input type="text" name="lose" id="" size="2" readonly value="0"> 패
+                        <input type="text" name="draw" id="" size="2" readonly value="0"> 무
+                    </td>
                 </tr>
             </table>
         </form>
