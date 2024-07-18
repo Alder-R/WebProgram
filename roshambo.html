@@ -14,7 +14,7 @@
     function Roshambo(choice) {
         // alert("선택값: " + choice);
         with (document.roshamboGame) {
-            comp = Math.round((Math.random() * 2) + 1);
+            comp = Math.floor((Math.random() * 3) + 1);
             // alert("컴퓨터: " + comp);
             var soms;
             if (comp == 1) { coms = "가위"; }
