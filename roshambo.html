@@ -14,13 +14,14 @@
     function Roshambo(choice) {
         // alert("선택값: " + choice);
         with (document.roshamboGame) {
+            num.value++;
             comp = Math.floor((Math.random() * 3) + 1);
             // alert("컴퓨터: " + comp);
             var soms;
             if (comp == 1) { coms = "가위"; }
             else if (comp == 2) { coms = "바위"; }
             else if (comp == 3) { coms = "보"; }
-            msg.value = "컴퓨터는 " + coms + "를 냈습니다.";
+            log.value = "컴퓨터는 " + coms + "를 냈습니다.";
             if (comp == 1) {
                 switch (choice) {
                     case 1: Draw(); break;
@@ -47,19 +48,21 @@
     function Win() { 
         with (document.roshamboGame) {
             win.value++;
-            msg.value += " 당신은 이겼습니다.";
+            log.value += " 당신은 이겼습니다.";
+            score.value++;
         }
     }
     function Lose() { 
         with (document.roshamboGame) {
             lose.value++;
-            msg.value += " 당신은 졌습니다.";
+            log.value += " 당신은 졌습니다.";
+            score.value--;
         }
     }
     function Draw() { 
         with (document.roshamboGame) {
             draw.value++;
-            msg.value += " 당신은 비겼습니다.";
+            log.value += " 당신은 비겼습니다.";
         }
     }
     </script>
@@ -75,13 +78,19 @@
                     <td><img src="roshambo_Images\paper.gif" alt="" onclick="Roshambo(3)"><br>보</td>
                 </tr>
                 <tr>
-                    <td colspan="3"><input type="text" name="msg" id="" size="40" readonly value=""></td>
+                    <td colspan="3">로그: <input type="text" name="log" id="" size="36" readonly value=""></td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
                         <input type="text" name="win" id="" size="2" readonly value="0"> 승　
                         <input type="text" name="lose" id="" size="2" readonly value="0"> 패　
                         <input type="text" name="draw" id="" size="2" readonly value="0"> 무　
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                        횟수: <input type="text" name="num" id="" size="5" readonly value="0">　　　
+                        점수: <input type="text" name="score" id="" size="5" readonly value="0">
                     </td>
                 </tr>
             </table>
